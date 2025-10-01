@@ -1,0 +1,146 @@
+// app.js
+
+// Fungsi untuk merender data anggota dpr ke tabel
+function renderDPRTableAdmin(data) {
+    const tableBody = document.querySelector('#DPRTable tbody');
+    if (!tableBody) return;
+    tableBody.innerHTML = '';
+    data.forEach(DPR => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${DPR.id_anggota}</td>
+            <td>${DPR.nama_depan}</td>
+            <td>${DPR.nama_belakang}</td>
+            <td>${DPR.gelar_depan}</td>
+            <td>${DPR.gelar_belakang}</td>
+            <td>${DPR.jabatan}</td>
+            <td>${DPR.status_pernikahan}</td>
+            <td>
+                <a href="${BASE_URL}admin/dpr/edit/${DPR.id_anggota}" class="btn btn-edit">Edit</a>
+                <a href="${BASE_URL}admin/dpr/hapus/${DPR.id_anggota}" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data ${DPR.nama_depan}?')">Hapus</a>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Fungsi untuk merender data anggota dpr ke tabel client
+function renderDPRTableClient(data) {
+    const tableBody = document.querySelector('#anggotaDPRTable tbody');
+    if (!tableBody) return;
+    tableBody.innerHTML = '';
+    data.forEach(DPR => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${DPR.id_anggota}</td>
+            <td>${DPR.nama_depan}</td>
+            <td>${DPR.nama_belakang}</td>
+            <td>${DPR.gelar_depan}</td>
+            <td>${DPR.gelar_belakang}</td>
+            <td>${DPR.jabatan}</td>
+            <td>${DPR.status_pernikahan}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function showStatusMessage(message, type, targetId) {
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) {
+        console.error(`Target element with ID '${targetId}' not found.`);
+        return;
+    }
+    
+    const statusDiv = document.createElement('div');
+    statusDiv.className = 'status-message';
+    statusDiv.textContent = message;
+    statusDiv.style.padding = '10px';
+    statusDiv.style.margin = '10px 0';
+    statusDiv.style.color = 'white';
+    statusDiv.style.textAlign = 'center';
+    statusDiv.style.borderRadius = '5px';
+    statusDiv.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+    
+    const oldMessage = targetElement.querySelector('.status-message');
+    if (oldMessage) {
+        oldMessage.remove();
+    }
+    targetElement.prepend(statusDiv);
+
+    setTimeout(() => {
+        statusDiv.remove();
+    }, 4000);
+}
+
+function handleFormValidation(formId) {
+    const form = document.getElementById(formId);
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener('submit', function(event) {
+        let isFormEmpty = false;
+        const requiredInputs = form.querySelectorAll('input[required]');
+
+        requiredInputs.forEach(input => {
+            input.style.border = '';
+        });
+
+        requiredInputs.forEach(input => {
+            if (input.value.trim() === '') {
+                isFormEmpty = true;
+                input.style.border = '2px solid red';
+            }
+        });
+
+        if (isFormEmpty) {
+            event.preventDefault();
+            const statusMessageDiv = form.querySelector('#formStatusMessage');
+            if (statusMessageDiv) {
+                showStatusMessage('Semua field wajib diisi!', 'error', statusMessageDiv.id);
+            }
+        }
+    });
+}
+
+function setupActiveMenu(menuSelector) {
+    const menuLinks = document.querySelectorAll(menuSelector + ' a');
+    if (!menuLinks.length) return;
+
+    const currentUrl = window.location.href;
+
+    menuLinks.forEach(link => {
+        if (currentUrl.includes(link.getAttribute('href'))) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+     setupActiveMenu('.menu');
+    const successMessageEl = document.getElementById('php-success-message');
+    const errorMessageEl = document.getElementById('php-error-message');
+    //const contentDiv = document.querySelector('.content');
+
+    if (successMessageEl && successMessageEl.textContent.trim() !== '') {
+        showStatusMessage(successMessageEl.textContent.trim(), 'success', 'content');
+    }
+    
+    if (errorMessageEl && errorMessageEl.textContent.trim() !== '') {
+        showStatusMessage(errorMessageEl.textContent.trim(), 'error', 'content');
+    }
+
+    if (typeof anggotaData !== 'undefined') {
+    renderDPRTableAdmin(anggotaData); 
+    }
+    
+    if (typeof anggotaData !== 'undefined') {
+    renderDPRTableClient(anggotaData); 
+    }
+    // --- Validasi form kosong ---
+    
+    handleFormValidation('loginForm');
+});

@@ -19,11 +19,14 @@
     <div class="menu">
         <?php if ($role === 'Admin'): ?>
             <a href="<?= base_url('admin/dashboard') ?>">Dashboard</a>
-    
+            <a href="<?= base_url('admin/dpr') ?>">Data Anggota DPR</a>
+            <a href="<?= base_url('admin/gaji') ?>">Komponen Gaji</a>
+            <a href="<?= base_url('admin/penggajian') ?>">Penggajian</a>
             <a href="<?= base_url('logout') ?>">Logout</a>
         <?php elseif ($role === 'Public'): ?>
             <a href="<?= base_url('client/dashboard') ?>">Dashboard</a>
-            
+            <a href="<?= base_url('client/dpr') ?>">Data Anggota DPR</a>
+            <a href="<?= base_url('client/gaji') ?>">Data Gaji Anggota DPR</a>
             <a href="<?= base_url('logout') ?>">Logout</a>
         <?php endif; ?>
     </div>

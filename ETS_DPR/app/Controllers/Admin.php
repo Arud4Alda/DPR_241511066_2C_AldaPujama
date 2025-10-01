@@ -1,6 +1,9 @@
 <?php namespace App\Controllers;
 
 use App\Models\PenggunaModel;
+use App\Models\AnggotaModel;
+use App\Models\KomponenGajiModel;
+use App\Models\PenggajianModel;
 
 class Admin extends BaseController
 {
@@ -12,4 +15,18 @@ class Admin extends BaseController
         ];
         return view('displayTemplate',$pagedata);
     }
+
+    // ---------------- DPR ----------------
+
+    public function dpr()
+    {
+        $anggotaModel = new AnggotaModel();
+        $data['anggota'] = json_encode($anggotaModel->findAll());
+
+        $pagedata = [
+            'title'=>'Daftar Anggota DPR',
+            'content'=>view('admin/displayDataDPR',$data)
+        ];
+        return view('displayTemplate',$pagedata);
+   }
 }
