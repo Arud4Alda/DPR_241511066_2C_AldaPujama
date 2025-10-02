@@ -44,6 +44,29 @@ function renderDPRTableClient(data) {
     });
 }
 
+// Fungsi untuk merender data gaji anggota dpr ke tabel
+function renderGajiTable(data) {
+    const tableBody = document.querySelector('#gajiTable tbody');
+    if (!tableBody) return;
+    tableBody.innerHTML = '';
+    data.forEach(tgj => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${tgj.id_komponen_gaji}</td>
+            <td>${tgj.nama_komponen}</td>
+            <td>${tgj.kategori}</td>
+            <td>${tgj.jabatan}</td>
+            <td>${tgj.nominal}</td>
+            <td>${tgj.satuan}</td>
+            <td>
+                <a href="${BASE_URL}admin/gaji/edit/${tgj.id_komponen_gaji}" class="btn btn-edit">Edit</a>
+                <a href="${BASE_URL}admin/gaji/hapus/${tgj.id_komponen_gaji}" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data ${tgj.nama_komponen}?')">Hapus</a>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
 function showStatusMessage(message, type, targetId) {
     const targetElement = document.getElementById(targetId);
     if (!targetElement) {
@@ -139,6 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeof anggotaData !== 'undefined') {
     renderDPRTableClient(anggotaData); 
+    }
+
+    if (typeof gajiData !== 'undefined') {
+    renderGajiTable(gajiData); 
     }
     // --- Validasi form kosong ---
     

@@ -6,6 +6,6 @@
     <title>Dasboard Admin</title>
 </head>
 <body>
-    <p>Selamat Datang Admin.........</p>
+    <p>Selamat Datang Adminnnnnnnnnnn.........</p>
 </body>
 </html>

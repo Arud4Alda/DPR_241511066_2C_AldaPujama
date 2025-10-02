@@ -14,6 +14,7 @@ $routes->get('/logout', 'Login::logout');
 $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
     $routes->get('dpr', 'Admin::dpr');
+    $routes->get('gaji', 'Admin::gaji');
 });
 
 // Client routes

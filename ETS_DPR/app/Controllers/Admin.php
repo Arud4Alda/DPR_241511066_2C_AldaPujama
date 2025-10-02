@@ -29,4 +29,16 @@ class Admin extends BaseController
         ];
         return view('displayTemplate',$pagedata);
    }
+
+   public function gaji()
+   {
+        $gajiModel = new KomponenGajiModel();
+        $data['komponen_gaji'] = json_encode($gajiModel->findAll());
+
+        $pagedata = [
+            'title'=>'Daftar Gaji Anggota DPR',
+            'content'=>view('admin/displayTunjanganGaji',$data)
+        ];
+        return view('displayTemplate',$pagedata);
+   }
 }
