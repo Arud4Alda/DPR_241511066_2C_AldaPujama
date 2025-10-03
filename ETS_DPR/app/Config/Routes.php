@@ -25,6 +25,9 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->get('gaji', 'Admin::gaji');
     $routes->get('gaji/tambah', 'Admin::tambahgaji');
     $routes->post('gaji/simpan', 'Admin::simpantambahgaji');
+    $routes->get('gaji/edit/(:segment)', 'Admin::editgaji/$1');
+    $routes->post('gaji/update/(:segment)', 'Admin::updateeditgaji/$1');
+    
 });
 
 // Client routes

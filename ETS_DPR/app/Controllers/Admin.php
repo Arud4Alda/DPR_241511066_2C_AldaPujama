@@ -124,4 +124,30 @@ class Admin extends BaseController
         ]);
         return redirect()->to('/admin/gaji');
     }
+
+    public function editgaji($id)
+    {
+        $gajiModel = new KomponenGajiModel();
+        $data['gaji'] = $gajiModel->find($id);
+
+        $pagedata = [
+            'title'=>'Edit gaji',
+            'content'=>view('admin/formEditGaji',$data)
+        ];
+        return view('displayTemplate',$pagedata);
+    }
+
+    public function updateeditgaji($id)
+    {
+        $gajiModel = new KomponenGajiModel();
+        $gajiModel->update($id, [
+            'id_komponen_gaji'  => $this->request->getPost('id_komponen_gaji'),
+            'nama_komponen'     => $this->request->getPost('nama_komponen'),
+            'kategori'          => $this->request->getPost('kategori')?: null,
+            'jabatan'           => $this->request->getPost('jabatan') ?: null,
+            'nominal'           => $this->request->getPost('nominal'),
+            'satuan'            => $this->request->getPost('satuan') 
+        ]);
+        return redirect()->to('/admin/gaji');
+    }
 }
