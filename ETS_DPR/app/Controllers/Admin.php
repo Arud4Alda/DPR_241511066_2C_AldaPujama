@@ -46,10 +46,37 @@ class Admin extends BaseController
             'id_anggota'        => $this->request->getPost('id_anggota'),
             'nama_depan'        => $this->request->getPost('nama_depan'),
             'nama_belakang'     => $this->request->getPost('nama_belakang'),
-            'gelar_depan'       => $this->request->getPost('gelar_depan'),
-            'gelar_belakang'    => $this->request->getPost('gelar_belakang'),
-            'jabatan'           => $this->request->getPost('jabatan'),
-            'status_pernikahan' => $this->request->getPost('status_pernikahan'),
+            'gelar_depan'       => $this->request->getPost('gelar_depan') ?: null,
+            'gelar_belakang'    => $this->request->getPost('gelar_belakang') ?: null,
+            'jabatan'           => $this->request->getPost('jabatan') ?: null,
+            'status_pernikahan' => $this->request->getPost('status_pernikahan') ?: null
+        ]);
+        return redirect()->to('/admin/dpr');
+    }
+
+    public function editdpr($id)
+    {
+        $anggotaModel = new AnggotaModel();
+        $data['anggota'] = $anggotaModel->find($id);
+
+        $pagedata = [
+            'title'=>'Edit DPR',
+            'content'=>view('admin/formEditDPR',$data)
+        ];
+        return view('displayTemplate',$pagedata);
+    }
+
+    public function updateeditdpr($id)
+    {
+        $anggotaModel = new AnggotaModel();
+        $anggotaModel->update($id, [
+            'id_anggota'        => $this->request->getPost('id_anggota'),
+            'nama_depan'        => $this->request->getPost('nama_depan'),
+            'nama_belakang'     => $this->request->getPost('nama_belakang'),
+            'gelar_depan'       => $this->request->getPost('gelar_depan') ?: null,
+            'gelar_belakang'    => $this->request->getPost('gelar_belakang') ?: null,
+            'jabatan'           => $this->request->getPost('jabatan') ?: null,
+            'status_pernikahan' => $this->request->getPost('status_pernikahan') ?: null
         ]);
         return redirect()->to('/admin/dpr');
     }

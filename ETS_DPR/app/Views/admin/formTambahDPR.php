@@ -30,7 +30,7 @@
             <option value="Anggota">Anggota</option>
         </select><br><br>
 
-        <label for="status_pernikahan">Satus Pernikahan:</label><br>
+        <label for="status_pernikahan">Status Pernikahan:</label><br>
         <select id="status_pernikahan" name="status_pernikahan">
             <option value="Kawin">Kawin</option>
             <option value="Belum Kawin">Belum Kawin</option>
@@ -38,8 +38,7 @@
         </select><br><br>
 
         <button type="submit" class="btn btn-edit">Simpan</button>
-        </div>
-        </div>
+        
     </form>
   </body>
 </html>

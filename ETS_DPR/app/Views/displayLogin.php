@@ -9,14 +9,12 @@
         <h2 style="text-align: center;">Login</h2>
 
         <?php if(session()->getFlashdata('error')): ?>
-             <div id="php-error-message"><?= session()->getFlashdata('error') ?></div>
+             <div style="background-color: red; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align:center;">
+                <?= session()->getFlashdata('error') ?>
+            </div>
         <?php endif; ?>
 
-        <?php if(session()->getFlashdata('success')): ?>
-             <div id="php-success-message"><?= session()->getFlashdata('success') ?></div>
-        <?php endif; ?>
-
-        <form id="loginForm" action="<?= base_url('/login/auth') ?>" method="POST" nonvalidate>
+        <form id="loginForm" action="<?= base_url('/login/auth') ?>" method="POST" novalidate>
         <div id="formStatusMessage"></div>    
             <label for="username">Username :</label>
             <input type="text" name="username" id="username" required>

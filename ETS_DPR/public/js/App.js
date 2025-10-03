@@ -170,4 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Validasi form kosong ---
     
     handleFormValidation('loginForm');
+    handleFormValidation('dprTambahForm');  // untuk form tambah DPR
+    handleFormValidation('dprEditForm');    // untuk form edit DPR
 });
