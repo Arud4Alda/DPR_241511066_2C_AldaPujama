@@ -101,4 +101,27 @@ class Admin extends BaseController
         ];
         return view('displayTemplate',$pagedata);
    }
+
+   public function tambahgaji()
+    {
+        $pagedata = [
+            'title'=>'Tambah Komponen Gaji DPR',
+            'content'=>view('admin/formTambahGaji')
+        ];
+        return view('displayTemplate',$pagedata);
+    }
+
+    public function simpantambahgaji()
+    {
+        $gajiModel = new KomponenGajiModel();
+        $gajiModel->insert([
+            'id_komponen_gaji'  => $this->request->getPost('id_komponen_gaji'),
+            'nama_komponen'     => $this->request->getPost('nama_komponen'),
+            'kategori'          => $this->request->getPost('kategori')?: null,
+            'jabatan'           => $this->request->getPost('jabatan') ?: null,
+            'nominal'           => $this->request->getPost('nominal'),
+            'satuan'            => $this->request->getPost('satuan') 
+        ]);
+        return redirect()->to('/admin/gaji');
+    }
 }

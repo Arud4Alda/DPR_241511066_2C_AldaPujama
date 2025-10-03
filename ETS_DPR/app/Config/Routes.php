@@ -21,8 +21,10 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->post('dpr/update/(:segment)', 'Admin::updateeditdpr/$1');
     $routes->get('dpr/hapus/(:segment)', 'Admin::hapusdpr/$1');
 
-    //tunjangan gaji dpr
+    //komponen gaji dpr
     $routes->get('gaji', 'Admin::gaji');
+    $routes->get('gaji/tambah', 'Admin::tambahgaji');
+    $routes->post('gaji/simpan', 'Admin::simpantambahgaji');
 });
 
 // Client routes
