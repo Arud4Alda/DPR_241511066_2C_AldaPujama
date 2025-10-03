@@ -81,6 +81,13 @@ class Admin extends BaseController
         return redirect()->to('/admin/dpr');
     }
 
+    public function hapusdpr($id)
+    {
+        $anggotaModel = new AnggotaModel();
+        $anggotaModel->delete($id);
+        return redirect()->to('/admin/dpr');
+    }
+
 
    // ---------------- Komponen Gaji DPR ----------------
    public function gaji()
