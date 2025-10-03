@@ -150,4 +150,11 @@ class Admin extends BaseController
         ]);
         return redirect()->to('/admin/gaji');
     }
+
+    public function hapusgaji($id)
+    {
+        $gajiModel = new KomponenGajiModel();
+        $gajiModel->delete($id);
+        return redirect()->to('/admin/gaji');
+    }
 }

@@ -27,6 +27,7 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->post('gaji/simpan', 'Admin::simpantambahgaji');
     $routes->get('gaji/edit/(:segment)', 'Admin::editgaji/$1');
     $routes->post('gaji/update/(:segment)', 'Admin::updateeditgaji/$1');
+    $routes->get('gaji/hapus/(:segment)', 'Admin::hapusgaji/$1');
     
 });
 
