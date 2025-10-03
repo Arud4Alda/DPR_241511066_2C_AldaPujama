@@ -13,12 +13,19 @@ $routes->get('/logout', 'Login::logout');
 // Admin routes
 $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
+    //anggota dpr
     $routes->get('dpr', 'Admin::dpr');
+    $routes->get('dpr/tambah', 'Admin::tambahdpr');
+    $routes->post('dpr/simpan', 'Admin::simpantambahdpr');
+
+    //tunjangan gaji dpr
     $routes->get('gaji', 'Admin::gaji');
 });
 
 // Client routes
 $routes->group('client', ['filter' => 'clientauth'], function($routes) {
     $routes->get('dashboard', 'Client::dashboard');
+
+    //anggota dpr
     $routes->get('dpr', 'Client::dpr');
 });

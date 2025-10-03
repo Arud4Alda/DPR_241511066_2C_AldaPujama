@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Daftar Anggota DPR</h2>
-    <div style="text-align:right; margin-bottom:10px;">
+    <div style="text-align:right; margin-bottom:20px;  margin-right:140px;;">
         <a href="<?= site_url('admin/dpr/tambah') ?>" class="btn btn-add" id="tambahCourseBtn">+ Tambah DPR</a>
     </div>
     <table id="DPRTable">

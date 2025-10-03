@@ -28,6 +28,13 @@ input
     border: 1px solid #ccc;
 }
 
+select 
+{ 
+    width: 390px; 
+    padding: 8px; 
+    border: 1px solid #ccc;
+}
+
 .error 
 { 
     color: red; 
@@ -99,10 +106,6 @@ h2{text-align: center;}
     border-radius: 10px;
     background-color: #ffffffff;
 }
-
-.formlabel { display: block;  }
-
-.forminput { width: 370px; padding: 5px; }
 
 .btn 
 {

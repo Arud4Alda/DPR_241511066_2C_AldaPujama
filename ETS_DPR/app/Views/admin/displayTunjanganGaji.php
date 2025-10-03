@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Komponen Gaji DPR</h2>
-    <div style="text-align:right; margin-bottom:10px;">
+    <div style="text-align:right; margin-bottom:20px;  margin-right:140px;">
         <a href="<?= site_url('admin/gaji/tambah') ?>" class="btn btn-add" id="tambahCourseBtn">+ Tambah Komponen Gaji</a>
     </div>
     <table id="gajiTable">

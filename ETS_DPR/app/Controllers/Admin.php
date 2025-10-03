@@ -30,6 +30,32 @@ class Admin extends BaseController
         return view('displayTemplate',$pagedata);
    }
 
+   public function tambahdpr()
+    {
+        $pagedata = [
+            'title'=>'Tambah DPR',
+            'content'=>view('admin/formTambahDPR')
+        ];
+        return view('displayTemplate',$pagedata);
+    }
+
+    public function simpantambahdpr()
+    {
+        $anggotaModel = new AnggotaModel();
+        $anggotaModel->insert([
+            'id_anggota'        => $this->request->getPost('id_anggota'),
+            'nama_depan'        => $this->request->getPost('nama_depan'),
+            'nama_belakang'     => $this->request->getPost('nama_belakang'),
+            'gelar_depan'       => $this->request->getPost('gelar_depan'),
+            'gelar_belakang'    => $this->request->getPost('gelar_belakang'),
+            'jabatan'           => $this->request->getPost('jabatan'),
+            'status_pernikahan' => $this->request->getPost('status_pernikahan'),
+        ]);
+        return redirect()->to('/admin/dpr');
+    }
+
+
+   // ---------------- Komponen Gaji DPR ----------------
    public function gaji()
    {
         $gajiModel = new KomponenGajiModel();
