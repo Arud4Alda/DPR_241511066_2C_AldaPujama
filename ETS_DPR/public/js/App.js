@@ -83,7 +83,7 @@ function renderPenggajianTableAdmin(data) {
             <td>
                 <a href="${BASE_URL}admin/penggajian/detail/${pgj.id_anggota}" class="btn btn-add">View</a>
                 <a href="${BASE_URL}admin/penggajian/edit/${pgj.id_anggota}" class="btn btn-edit">Edit</a>
-                <a href="${BASE_URL}admin/penggajian/hapus/${pgj.id_anggota}" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data ${pgj.nama_lengkap}?')">Hapus</a>
+                <a href="${BASE_URL}admin/penggajian/hapus/${pgj.id_anggota}" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data ${pgj.nama_depan}?')">Hapus</a>
             </td>
         `;
         tableBody.appendChild(row);

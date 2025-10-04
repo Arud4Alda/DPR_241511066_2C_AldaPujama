@@ -85,7 +85,7 @@ class Admin extends BaseController
     {
         $anggotaModel = new AnggotaModel();
         $anggotaModel->delete($id);
-        return redirect()->to('/admin/dpr');
+        return redirect()->to('/admin/dpr')->with('success', 'Data anggota berhasil dihapus.');
     }
 
 
@@ -155,7 +155,7 @@ class Admin extends BaseController
     {
         $gajiModel = new KomponenGajiModel();
         $gajiModel->delete($id);
-        return redirect()->to('/admin/gaji');
+        return redirect()->to('/admin/gaji')->with('success', 'Data komponen gaji berhasil dihapus.');
     }
 
     // ---------------- Penggajian DPR ----------------
@@ -293,6 +293,13 @@ class Admin extends BaseController
             'content' => view('admin/detailPenggajian', $data)
         ];
         return view('displayTemplate', $pagedata);
+    }
+
+    public function hapuspenggajian($id)
+    {
+        $penggajianModel = new PenggajianModel();
+        $penggajianModel->where('id_anggota', $id)->delete();
+        return redirect()->to('/admin/penggajian')->with('success', 'Data penggajian berhasil dihapus.');
     }
 
 }
