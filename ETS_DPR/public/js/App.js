@@ -74,10 +74,14 @@ function renderPenggajianTableAdmin(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${pgj.id_anggota}</td>
-            <td>${pgj.nama_lengkap}</td>
+            <td>${pgj.gelar_depan}</td>
+            <td>${pgj.nama_depan}</td>
+            <td>${pgj.nama_belakang}</td>
+            <td>${pgj.gelar_belakang}</td>
             <td>${pgj.jabatan}</td>
             <td>${formatRupiah(pgj.take_home_pay)}</td>
             <td>
+                <a href="${BASE_URL}admin/penggajian/detail/${pgj.id_anggota}" class="btn btn-add">View</a>
                 <a href="${BASE_URL}admin/penggajian/edit/${pgj.id_anggota}" class="btn btn-edit">Edit</a>
                 <a href="${BASE_URL}admin/penggajian/hapus/${pgj.id_anggota}" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data ${pgj.nama_lengkap}?')">Hapus</a>
             </td>
@@ -95,9 +99,15 @@ function renderPenggajianTableClient(data) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${pgj.id_anggota}</td>
-            <td>${pgj.nama_lengkap}</td>
+            <td>${pgj.gelar_depan}</td>
+            <td>${pgj.nama_depan}</td>
+            <td>${pgj.nama_belakang}</td>
+            <td>${pgj.gelar_belakang}</td>
             <td>${pgj.jabatan}</td>
             <td>${formatRupiah(pgj.take_home_pay)}</td>
+            <td>
+            <a href="${BASE_URL}client/penggajian/detail/${pgj.id_anggota}" class="btn btn-add">View</a>
+            </td>
         `;
         tableBody.appendChild(row);
     });
@@ -185,6 +195,30 @@ function setupActiveMenu(menuSelector) {
     });
 }
 
+// Fungsi untuk menampilkan notifikasi singkat
+function showNotification(message, type = "success") {
+    // Buat elemen div notifikasi
+    const notif = document.createElement("div");
+    notif.className = `notif ${type}`;
+    notif.textContent = message;
+
+    // Tambahkan ke body
+    document.body.appendChild(notif);
+
+    // Animasi masuk
+    setTimeout(() => {
+        notif.style.opacity = "1";
+        notif.style.transform = "translateY(0)";
+    }, 50);
+
+    // Hapus otomatis setelah 3 detik
+    setTimeout(() => {
+        notif.style.opacity = "0";
+        notif.style.transform = "translateY(-20px)";
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     
      setupActiveMenu('.menu');
@@ -198,6 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (errorMessageEl && errorMessageEl.textContent.trim() !== '') {
         showStatusMessage(errorMessageEl.textContent.trim(), 'error', 'content');
+    }
+
+    const successMessage = document.body.getAttribute("data-flash-success");
+    const errorMessage   = document.body.getAttribute("data-flash-error");
+
+    if (successMessage) {
+        showNotification(successMessage, "success");
+    }
+    if (errorMessage) {
+        showNotification(errorMessage, "error");
     }
 
     if (typeof anggotaData !== 'undefined') {

@@ -78,7 +78,7 @@ class Admin extends BaseController
             'jabatan'           => $this->request->getPost('jabatan') ?: null,
             'status_pernikahan' => $this->request->getPost('status_pernikahan') ?: null
         ]);
-        return redirect()->to('/admin/dpr');
+        return redirect()->to('/admin/dpr')->with('success', 'Anggota berhasil diperbaharui.');
     }
 
     public function hapusdpr($id)
@@ -122,7 +122,7 @@ class Admin extends BaseController
             'nominal'           => $this->request->getPost('nominal'),
             'satuan'            => $this->request->getPost('satuan') 
         ]);
-        return redirect()->to('/admin/gaji');
+        return redirect()->to('/admin/gaji')->with('success', 'KOmoponen Gaji berhasil ditambahkan.');
     }
 
     public function editgaji($id)
@@ -148,7 +148,7 @@ class Admin extends BaseController
             'nominal'           => $this->request->getPost('nominal'),
             'satuan'            => $this->request->getPost('satuan') 
         ]);
-        return redirect()->to('/admin/gaji');
+        return redirect()->to('/admin/gaji')->with('success', 'komponen gaji berhasil diperbaharui.');
     }
 
     public function hapusgaji($id)
@@ -166,7 +166,10 @@ class Admin extends BaseController
         $builder = $db->table('anggota')
             ->select("
                 anggota.id_anggota,
-                CONCAT_WS(' ', anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang) AS nama_lengkap,
+                anggota.gelar_depan,
+                anggota.nama_depan,
+                anggota.nama_belakang,
+                anggota.gelar_belakang,
                 anggota.jabatan,
                 SUM(CASE 
                     WHEN komponen_gaji.satuan = 'Bulan' THEN komponen_gaji.nominal
@@ -220,6 +223,29 @@ class Admin extends BaseController
             return redirect()->back()->with('error', 'Komponen gaji tidak sesuai jabatan anggota!');
         }
 
+        // Validasi komponen khusus (tunjangan keluarga)
+        if ($komponen['nama_komponen'] === 'Tunjangan Istri/Suami') {
+            if ($anggota['status_pernikahan'] !== 'Kawin') {
+                return redirect()->back()->with('error', 'Tunjangan Istri/Suami hanya untuk anggota yang sudah Kawin!');
+            }
+        }
+
+        // Validasi komponen khusus (tunjangan anak)
+        if ($komponen['nama_komponen'] === 'Tunjangan Anak') {
+            if ($anggota['status_pernikahan'] == 'Belum Kawin') {
+                return redirect()->back()->with('error', 'Tunjangan Anak hanya untuk anggota yang sudah pernah Kawin!');
+            }
+
+            // Hitung sudah berapa kali anggota ini dapat tunjangan anak
+            $jumlahTunjanganAnak = $penggajianModel->where('id_anggota', $id_anggota)
+                                                ->where('id_komponen_gaji', $id_komponen)
+                                                ->countAllResults();
+
+            if ($jumlahTunjanganAnak >= 2) {
+                return redirect()->back()->with('error', 'Tunjangan Anak maksimal hanya bisa 2 kali!');
+            }
+        }
+
         // Validasi duplikat
         $cekDuplikat = $penggajianModel->where('id_anggota', $id_anggota)
                                     ->where('id_komponen_gaji', $id_komponen)
@@ -235,6 +261,38 @@ class Admin extends BaseController
         ]);
 
         return redirect()->to('/admin/penggajian')->with('success', 'Data penggajian berhasil ditambahkan.');
+    }
+
+    public function detailpenggajian($id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('anggota')
+            ->select("
+                CONCAT_WS(' ', anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang) as nama_lengkap,
+                GROUP_CONCAT(komponen_gaji.nama_komponen SEPARATOR ', ') as list_komponen,
+                SUM(
+                    CASE 
+                        WHEN komponen_gaji.satuan = 'Bulan' THEN komponen_gaji.nominal
+                        WHEN komponen_gaji.satuan = 'Tahun' THEN komponen_gaji.nominal / 12
+                        WHEN komponen_gaji.satuan = 'Periode' THEN komponen_gaji.nominal / 60
+                        ELSE 0
+                    END
+                ) as take_home_pay
+            ")
+            ->join('penggajian', 'penggajian.id_anggota = anggota.id_anggota')
+            ->join('komponen_gaji', 'komponen_gaji.id_komponen_gaji = penggajian.id_komponen_gaji')
+            ->where('anggota.id_anggota', $id)
+            ->groupBy('anggota.id_anggota, anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang, anggota.jabatan')
+            ->get()
+            ->getRowArray();
+
+        $data['penggajian'] = $builder;
+
+        $pagedata = [
+            'title'   => 'Detail Penggajian',
+            'content' => view('admin/detailPenggajian', $data)
+        ];
+        return view('displayTemplate', $pagedata);
     }
 
 }

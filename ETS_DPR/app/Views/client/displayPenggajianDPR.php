@@ -9,9 +9,13 @@
         <thead>
         <tr>
             <th>Id Anggota</th>
-            <th>Nama Lengkap</th>
+            <th>Gelar Depan</th>
+            <th>Nama Depan</th>
+            <th>Nama Belakang</th>            
+            <th>Gelar Belakang</th>
             <th>Jabatan</th>
             <th>Take Home Pay</th>
+            <th>Aksi</th>
         </tr>
         </thead>
         <tbody>

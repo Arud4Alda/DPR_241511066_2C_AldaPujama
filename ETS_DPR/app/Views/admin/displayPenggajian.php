@@ -3,16 +3,21 @@
 <head>
     <title>Data Penggajian DPR</title>
 </head>
-<body>
+<body
+    data-flash-success="<?= session()->getFlashdata('success') ?>">
+    
     <h2>Daftar Penggajian DPR</h2>
-    <div style="text-align:right; margin-bottom:20px;  margin-right:230px;;">
+    <div style="text-align:right; margin-bottom:20px;  margin-right:90px;;">
         <a href="<?= site_url('admin/penggajian/tambah') ?>" class="btn btn-add" id="tambahPenggajianBtn">+ Tambah Penggajian DPR</a>
     </div>
     <table id="penggajianTable">
         <thead>
         <tr>
             <th>Id Anggota</th>
-            <th>Nama Lengkap</th>
+            <th>Gelar Depan</th>
+            <th>Nama Depan</th>
+            <th>Nama Belakang</th>            
+            <th>Gelar Belakang</th>
             <th>Jabatan</th>
             <th>Take Home Pay</th>
             <th>Aksi</th>

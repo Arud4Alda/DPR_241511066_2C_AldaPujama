@@ -3,7 +3,8 @@
 <head>
     <title>Tambah Penggajian DPR</title>
 </head>
-<body>
+<body     
+    data-flash-error="<?= session()->getFlashdata('error') ?>">
     <div class="form-box">
     <h3 style="text-align: center;">Form Tambah Penggajian DPR</h3>
     <form id="penggajianTambahForm" method="post" action="<?= site_url('admin/penggajian/simpan') ?>" novalidate>

@@ -4,7 +4,9 @@
     <title>Login</title>
     <link rel="stylesheet" href="<?= base_url('css/styles.css') ?>">
 </head>
-<body style="background-color: #dadadac8;">
+<body style="background-color: #dadadac8;"
+    data-flash-success="<?= session()->getFlashdata('success') ?>" >
+    
     <div class="login-box">
         <h2 style="text-align: center;">Login</h2>
 

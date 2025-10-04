@@ -31,9 +31,9 @@ class Login extends BaseController
 
             // Arahkan sesuai role
             if ($user['role'] == 'Admin') {
-                return redirect()->to('/admin/dashboard');
+                return redirect()->to('/admin/dashboard')->with('success', 'Login berhasil.');
             } else {
-                return redirect()->to('/client/dashboard');
+                return redirect()->to('/client/dashboard')->with('success', 'Login berhasil.');
             }
         }
         $session->setFlashdata('error', 'Username atau password salah!');
@@ -44,6 +44,6 @@ class Login extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/login')->with('success', 'Logout berhasil.');
     }
 }

@@ -140,6 +140,31 @@ h2{text-align: center;}
     background-color: #dc3545; /* Warna merah */
 }
 
+.card 
+{
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+ul 
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li 
+{
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
 .menu a.active {
     font-size: 1.1em;
     color: #ffffff;          /* contoh: putih */
@@ -148,5 +173,31 @@ h2{text-align: center;}
     padding: 5px 10px;
     transition: all 0.3s ease;
 }
+
+.notif 
+{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notif.success 
+{
+    background-color: #28a745;
+}
+
+.notif.error 
+{
+    background-color: #dc3545;
+}
+
 
 

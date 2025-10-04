@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dasboard Client</title>
 </head>
-<body>
+<body
+    data-flash-success="<?= session()->getFlashdata('success') ?>" >
+    
     <p>Selamat Datang Warga Indonesia.........</p>
 </body>
 </html>
