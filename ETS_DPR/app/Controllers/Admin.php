@@ -21,7 +21,21 @@ class Admin extends BaseController
     public function dpr()
     {
         $anggotaModel = new AnggotaModel();
+
+        $search = $this->request->getGet('search');
+        if ($search) 
+        {
+            $anggotaModel
+                ->groupStart() 
+                ->orLike('nama_depan', $search)
+                ->orLike('nama_belakang', $search)
+                ->orLike('jabatan', $search)
+                ->orLike('id_anggota', $search) 
+                ->groupEnd(); 
+        }
+
         $data['anggota'] = json_encode($anggotaModel->findAll());
+        $data['search'] = $search;
 
         $pagedata = [
             'title'=>'Daftar Anggota DPR',
@@ -93,7 +107,23 @@ class Admin extends BaseController
    public function gaji()
    {
         $gajiModel = new KomponenGajiModel();
+        $search = $this->request->getGet('search');
+
+        if ($search) 
+        {
+            $gajiModel
+                ->groupStart()
+                ->orLike('nama_komponen', $search)
+                ->orLike('kategori', $search)
+                ->orLike('jabatan', $search)
+                ->orLike('nominal', $search)
+                ->orLike('satuan', $search)
+                ->orLike('id_komponen_gaji', $search) 
+                ->groupEnd();
+        }
+    
         $data['komponen_gaji'] = json_encode($gajiModel->findAll());
+        $data['search'] = $search;
 
         $pagedata = [
             'title'=>'Daftar Gaji Anggota DPR',
@@ -163,6 +193,8 @@ class Admin extends BaseController
     {
         $db = \Config\Database::connect();
 
+        $search = $this->request->getGet('search');
+
         $builder = $db->table('anggota')
             ->select("
                 anggota.id_anggota,
@@ -182,7 +214,20 @@ class Admin extends BaseController
             ->join('komponen_gaji', 'komponen_gaji.id_komponen_gaji = penggajian.id_komponen_gaji')
             ->groupBy('anggota.id_anggota, anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang, anggota.jabatan');
 
+        if ($search) 
+        {
+            $builder
+                ->groupStart()
+                ->orLike('anggota.nama_depan', $search)
+                ->orLike('anggota.nama_belakang', $search)
+                ->orLike('anggota.jabatan', $search)
+                ->orLike('anggota.id_anggota', $search);                
+                $builder->groupEnd();
+        }
+
         $data['penggajian'] = json_encode($builder->get()->getResultArray());
+        $data['search'] = $search;
+
         $pagedata = [
             'title'   => 'Daftar Penggajian',
             'content' => view('admin/displayPenggajian', $data)

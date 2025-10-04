@@ -266,4 +266,63 @@ document.addEventListener('DOMContentLoaded', () => {
     handleFormValidation('gajiTambahForm'); // untuk form tambah komponen gaji
     handleFormValidation('gajiEditForm');    // untuk form edit komponen Gaji
     handleFormValidation('penggajianEditForm');    // untuk form edit penggajian
+
+    // ------------------- Logika Pencarian -------------------
+
+    // 1. Pencarian Anggota DPR
+    const searchInputDPR = document.getElementById('searchInputDPR');
+    const searchButtonDPR = document.getElementById('searchButtonDPR');
+
+    if (searchButtonDPR) {
+        // Fungsi untuk memicu navigasi
+        const performSearchDPR = () => {
+            const searchValue = searchInputDPR.value;
+            // Navigasi ke URL Controller dengan parameter search
+            window.location.href = `${BASE_URL}admin/dpr` + (searchValue ? '?search=' + encodeURIComponent(searchValue) : '');
+        };
+        
+        searchButtonDPR.addEventListener('click', performSearchDPR);
+        searchInputDPR.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Mencegah form submission jika ada
+                performSearchDPR();
+            }
+        });
+    }
+
+    // 2. Pencarian Komponen Gaji
+    const searchInputGaji = document.getElementById('searchInputGaji');
+    const searchButtonGaji = document.getElementById('searchButtonGaji');
+
+    if (searchButtonGaji) {
+        const performSearchGaji = () => {
+            const searchValue = searchInputGaji.value;
+            window.location.href = `${BASE_URL}admin/gaji` + (searchValue ? '?search=' + encodeURIComponent(searchValue) : '');
+        };
+        searchButtonGaji.addEventListener('click', performSearchGaji);
+        searchInputGaji.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearchGaji();
+            }
+        });
+    }
+
+    // 3. Pencarian Penggajian
+    const searchInputPenggajian = document.getElementById('searchInputPenggajian');
+    const searchButtonPenggajian = document.getElementById('searchButtonPenggajian');
+
+    if (searchButtonPenggajian) {
+        const performSearchPenggajian = () => {
+            const searchValue = searchInputPenggajian.value;
+            window.location.href = `${BASE_URL}admin/penggajian` + (searchValue ? '?search=' + encodeURIComponent(searchValue) : '');
+        };
+        searchButtonPenggajian.addEventListener('click', performSearchPenggajian);
+        searchInputPenggajian.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearchPenggajian();
+            }
+        });
+    }
 });

@@ -10,6 +10,15 @@
     <div style="text-align:right; margin-bottom:20px;  margin-right:140px;;">
         <a href="<?= site_url('admin/dpr/tambah') ?>" class="btn btn-add" id="tambahDPRBtn">+ Tambah DPR</a>
     </div>
+    <div style="margin-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+        <?php 
+            $searchValue = service('request')->getGet('search') ?? '';
+        ?>
+        <input type="text" id="searchInputDPR" placeholder="Cari Anggota (Nama, Jabatan, ID)..." 
+            style="padding: 8px; width: 300px; margin-right: 10px;" 
+            value="<?= esc($searchValue) ?>">
+        <button id="searchButtonDPR" class="btn btn-edit" style="padding: 8px 15px;">Cari</button>
+    </div>
     <table id="DPRTable">
         <thead>
         <tr>
