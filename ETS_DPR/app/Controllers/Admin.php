@@ -168,7 +168,12 @@ class Admin extends BaseController
                 anggota.id_anggota,
                 CONCAT_WS(' ', anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang) AS nama_lengkap,
                 anggota.jabatan,
-                SUM(komponen_gaji.nominal) AS take_home_pay
+                SUM(CASE 
+                    WHEN komponen_gaji.satuan = 'Bulan' THEN komponen_gaji.nominal
+                    WHEN komponen_gaji.satuan = 'Tahun' THEN komponen_gaji.nominal / 12
+                    WHEN komponen_gaji.satuan = 'Periode' THEN komponen_gaji.nominal / 60
+                    ELSE 0
+                END) AS take_home_pay
             ")
             ->join('penggajian', 'penggajian.id_anggota = anggota.id_anggota')
             ->join('komponen_gaji', 'komponen_gaji.id_komponen_gaji = penggajian.id_komponen_gaji')
@@ -180,6 +185,56 @@ class Admin extends BaseController
             'content' => view('admin/displayPenggajian', $data)
         ];
         return view('displayTemplate', $pagedata);
+    }
+
+    public function tambahpenggajian()
+    {
+        $anggotaModel = new AnggotaModel();
+        $gajiModel = new KomponenGajiModel();
+
+        $data['anggota'] = $anggotaModel->findAll();
+        $data['komponen_gaji'] = $gajiModel->findAll();
+
+        $pagedata = [
+            'title'=>'Tambah penggajian DPR',
+            'content'=>view('admin/formTambahPenggajian',$data)
+        ];
+        return view('displayTemplate',$pagedata);
+    }
+
+    public function simpantambahpenggajian()
+    {
+        $penggajianModel = new PenggajianModel();
+        $anggotaModel = new AnggotaModel();
+        $gajiModel = new KomponenGajiModel();
+
+        $id_anggota = $this->request->getPost('id_anggota');
+        $id_komponen = $this->request->getPost('id_komponen_gaji');
+
+        // ambil data anggota & komponen
+        $anggota = $anggotaModel->find($id_anggota);
+        $komponen = $gajiModel->find($id_komponen);
+
+        // Validasi jabatan
+        if ($komponen['jabatan'] !== 'Semua' && $komponen['jabatan'] !== $anggota['jabatan']) {
+            return redirect()->back()->with('error', 'Komponen gaji tidak sesuai jabatan anggota!');
+        }
+
+        // Validasi duplikat
+        $cekDuplikat = $penggajianModel->where('id_anggota', $id_anggota)
+                                    ->where('id_komponen_gaji', $id_komponen)
+                                    ->first();
+        if ($cekDuplikat) {
+            return redirect()->back()->with('error', 'Komponen gaji sudah ditambahkan untuk anggota ini!');
+        }
+
+        // Simpan data
+        $penggajianModel->insert([
+            'id_anggota' => $id_anggota,
+            'id_komponen_gaji' => $id_komponen
+        ]);
+
+        return redirect()->to('/admin/penggajian')->with('success', 'Data penggajian berhasil ditambahkan.');
     }
 
 }

@@ -221,4 +221,5 @@ document.addEventListener('DOMContentLoaded', () => {
     handleFormValidation('dprEditForm');    // untuk form edit DPR
     handleFormValidation('gajiTambahForm'); // untuk form tambah komponen gaji
     handleFormValidation('gajiEditForm');    // untuk form edit komponen Gaji
+    handleFormValidation('penggajianEditForm');    // untuk form edit penggajian
 });

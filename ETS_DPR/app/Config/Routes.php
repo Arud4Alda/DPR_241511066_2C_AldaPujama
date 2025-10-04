@@ -31,6 +31,8 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     
     //penggajian dpr
     $routes->get('penggajian', 'Admin::penggajian');
+    $routes->get('penggajian/tambah', 'Admin::tambahpenggajian');
+    $routes->post('penggajian/simpan', 'Admin::simpantambahpenggajian');
 });
 
 // Client routes
