@@ -26,7 +26,7 @@
         <?php elseif ($role === 'Public'): ?>
             <a href="<?= base_url('client/dashboard') ?>">Dashboard</a>
             <a href="<?= base_url('client/dpr') ?>">Data Anggota DPR</a>
-            <a href="<?= base_url('client/gaji') ?>">Data Gaji Anggota DPR</a>
+            <a href="<?= base_url('client/penggajian') ?>">Data Gaji Anggota DPR</a>
             <a href="<?= base_url('logout') ?>">Logout</a>
         <?php endif; ?>
     </div>

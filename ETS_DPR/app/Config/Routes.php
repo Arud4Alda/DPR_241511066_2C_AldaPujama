@@ -29,6 +29,8 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->post('gaji/update/(:segment)', 'Admin::updateeditgaji/$1');
     $routes->get('gaji/hapus/(:segment)', 'Admin::hapusgaji/$1');
     
+    //penggajian dpr
+    $routes->get('penggajian', 'Admin::penggajian');
 });
 
 // Client routes
@@ -37,4 +39,7 @@ $routes->group('client', ['filter' => 'clientauth'], function($routes) {
 
     //anggota dpr
     $routes->get('dpr', 'Client::dpr');
+
+    //penggajian dpr
+    $routes->get('penggajian', 'Client::penggajian');
 });

@@ -54,7 +54,8 @@ select
     background:#f5f2e7; 
     padding:10px; 
     text-align:center; 
-    font-family: 'monaco'
+    font-family: 'monaco';
+    cursor: pointer;
 }
 
 .menu a 
@@ -62,6 +63,12 @@ select
     margin:0 10px; 
     text-decoration:none; 
     color:#36816c; 
+    transition: all 0.3s ease;
+}
+
+.menu a:hover
+{ 
+    color:black;
 }
 
 .content 
@@ -139,5 +146,7 @@ h2{text-align: center;}
     background-color: #36816c; /* contoh: biru */
     border-radius: 5px;
     padding: 5px 10px;
+    transition: all 0.3s ease;
 }
+
 

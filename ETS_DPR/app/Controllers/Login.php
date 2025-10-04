@@ -44,7 +44,6 @@ class Login extends BaseController
     public function logout()
     {
         session()->destroy();
-        session()->setFlashdata('success', 'Logout berhasil.');
         return redirect()->to('/login');
     }
 }

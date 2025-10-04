@@ -6,5 +6,5 @@ class PenggajianModel extends Model
 {
     protected $table = 'penggajian';
     protected $primaryKey = ['id_komponen_gaji','id_anggota'];
-    protected $allowedFields = ['id_anggota'];
+    protected $allowedFields = ['id_komponen_gaji','id_anggota'];
 }

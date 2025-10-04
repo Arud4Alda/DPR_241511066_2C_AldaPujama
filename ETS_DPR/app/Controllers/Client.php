@@ -28,4 +28,30 @@ class Client extends BaseController
         ];
         return view('displayTemplate',$pagedata);
    }
+
+   // ---------------- Penggajian DPR ----------------
+   public function penggajian()
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('anggota')
+        ->select("
+            anggota.id_anggota,
+            CONCAT_WS(' ', anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang) AS nama_lengkap,
+            anggota.jabatan,
+            SUM(komponen_gaji.nominal) AS take_home_pay
+        ")
+        ->join('penggajian', 'penggajian.id_anggota = anggota.id_anggota')
+        ->join('komponen_gaji', 'komponen_gaji.id_komponen_gaji = penggajian.id_komponen_gaji')
+        ->groupBy('anggota.id_anggota, anggota.gelar_depan, anggota.nama_depan, anggota.nama_belakang, anggota.gelar_belakang, anggota.jabatan');
+
+     $data['penggajian'] = json_encode($builder->get()->getResultArray());
+
+    $pagedata = [
+        'title'   => 'Daftar Penggajian',
+        'content' => view('client/displayPenggajianDPR', $data)
+    ];
+    return view('displayTemplate', $pagedata);
+}
+
 }
