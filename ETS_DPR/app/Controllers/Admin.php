@@ -295,6 +295,58 @@ class Admin extends BaseController
         return view('displayTemplate', $pagedata);
     }
 
+    public function editpenggajian($id_anggota)
+    {
+        $penggajianModel = new PenggajianModel();
+        $komponenModel   = new KomponenGajiModel();
+        $anggotaModel    = new AnggotaModel();
+
+        $data['anggota'] = $anggotaModel->find($id_anggota);
+
+        $data['daftar_komponen'] = $penggajianModel
+            ->select('penggajian.*, komponen_gaji.nama_komponen, komponen_gaji.kategori')
+            ->join('komponen_gaji', 'komponen_gaji.id_komponen_gaji = penggajian.id_komponen_gaji')
+            ->where('penggajian.id_anggota', $id_anggota)
+            ->findAll();
+
+        $data['semua_komponen'] = $komponenModel->findAll();
+        if (!$data['anggota']) {
+            return redirect()->to('/admin/penggajian')->with('error', 'Data anggota tidak ditemukan.');
+        }
+        $pagedata = [
+            'title'   => 'edit Penggajian',
+            'content' => view('admin/formEditPenggajian', $data)
+        ];
+        return view('displayTemplate', $pagedata);
+    }
+
+    public function updatepenggajian()
+    {
+        $penggajianModel = new PenggajianModel();
+
+        $id_anggota         = $this->request->getPost('id_anggota');
+        $id_komponen_lama   = $this->request->getPost('id_komponen_lama');
+        $id_komponen_baru   = $this->request->getPost('id_komponen_baru');
+
+        // Cek dulu kalau sudah ada komponen gaji yang sama → hindari duplikat
+        $cek = $penggajianModel->where('id_anggota', $id_anggota)
+                            ->where('id_komponen_gaji', $id_komponen_baru)
+                            ->first();
+        if ($cek) {
+            return redirect()->back()->with('error', 'Komponen gaji sudah ada pada anggota ini!');
+        }
+
+        // Update data
+        $penggajianModel->where([
+            'id_anggota'      => $id_anggota,
+            'id_komponen_gaji' => $id_komponen_lama
+        ])->set([
+            'id_komponen_gaji' => $id_komponen_baru
+        ])->update();
+
+        return redirect()->to('/admin/penggajian')->with('success', 'Komponen gaji berhasil diubah.');
+    }
+
     public function hapuspenggajian($id)
     {
         $penggajianModel = new PenggajianModel();

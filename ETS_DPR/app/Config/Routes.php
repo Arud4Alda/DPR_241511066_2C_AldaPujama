@@ -34,6 +34,8 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->get('penggajian/tambah', 'Admin::tambahpenggajian');
     $routes->post('penggajian/simpan', 'Admin::simpantambahpenggajian');
     $routes->get('penggajian/detail/(:segment)', 'Admin::detailpenggajian/$1');
+    $routes->get('penggajian/edit/(:segment)', 'Admin::editpenggajian/$1');
+    $routes->post('penggajian/update', 'Admin::updatepenggajian');
     $routes->get('penggajian/hapus/(:segment)', 'Admin::hapuspenggajian/$1');
 });
 
